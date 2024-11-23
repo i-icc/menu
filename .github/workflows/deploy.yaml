@@ -13,21 +13,14 @@ jobs:
         uses: actions/checkout@v4
 
       # Node.js セットアップ
-      - name: Setup Node.js
+      - name: Use Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
-          cache: 'yarn'
-
-      # Yarn のインストール
-      - name: Install Dependencies
-        working-directory: ./src/menu-client
-        run: yarn install
-
-      # Next.js のビルド
-      - name: Build Next.js Project
-        working-directory: ./src/menu-client
-        run: yarn build
+      - name: Install dependencies
+        run: cd src/menu-client && yarn install
+      - name: Build
+        run: cd src/menu-client && yarn build
 
       # Terraform セットアップ
       - name: Setup Terraform
