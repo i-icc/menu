@@ -103,5 +103,6 @@ resource "aws_cloudfront_distribution" "static_site_cdn" {
 }
 
 output "cloudfront_domain_name" {
+  count = length(aws_cloudfront_distribution.static_site_cdn) > 0 ? 1 : 0
   value = aws_cloudfront_distribution.static_site_cdn[0].domain_name
 }
