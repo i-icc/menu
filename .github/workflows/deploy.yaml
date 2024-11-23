@@ -12,6 +12,23 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # Node.js セットアップ
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'yarn'
+
+      # Yarn のインストール
+      - name: Install Dependencies
+        working-directory: ./src/menu-client
+        run: yarn install
+
+      # Next.js のビルド
+      - name: Build Next.js Project
+        working-directory: ./src/menu-client
+        run: yarn build
+
       # Terraform セットアップ
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
