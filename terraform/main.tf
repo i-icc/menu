@@ -38,7 +38,7 @@ resource "aws_cloudfront_origin_access_identity" "oai" {
 }
 
 resource "aws_s3_bucket_policy" "static_site_policy" {
-  bucket = aws_s3_bucket.static_site.id
+  bucket = aws_s3_bucket.static_site[0].id
 
   policy = jsonencode({
     Version = "2012-10-17",
@@ -49,7 +49,7 @@ resource "aws_s3_bucket_policy" "static_site_policy" {
           AWS = aws_cloudfront_origin_access_identity.oai.iam_arn
         },
         Action   = "s3:GetObject",
-        Resource = "${aws_s3_bucket.static_site.arn}/*"
+        Resource = "${aws_s3_bucket.static_site[0].arn}/*"
       }
     ]
   })
@@ -57,7 +57,7 @@ resource "aws_s3_bucket_policy" "static_site_policy" {
 
 resource "aws_cloudfront_distribution" "static_site_cdn" {
   origin {
-    domain_name = aws_s3_bucket.static_site.bucket_regional_domain_name
+    domain_name = aws_s3_bucket.static_site[0].bucket_regional_domain_name
     origin_id   = "S3-static-site"
 
     s3_origin_config {
