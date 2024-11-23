@@ -1,6 +1,6 @@
 # menu
 自分専用のレシピ・メニュー表
-site url : 
+site url : https://i-icc-menu.vercel.app/
 
 ## dir 構成
 ```
@@ -18,7 +18,7 @@ site url :
 * terraform
   * IaC 周りのコード
 * .github
-  * terraform
+  * workflows
     * actions のファイル
 
 ## deploy
