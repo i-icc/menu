@@ -38,6 +38,7 @@ resource "aws_cloudfront_origin_access_identity" "oai" {
 }
 
 resource "aws_s3_bucket_policy" "static_site_policy" {
+  count  = length(aws_s3_bucket.static_site) > 0 ? 1 : 0
   bucket = aws_s3_bucket.static_site[0].id
 
   policy = jsonencode({
@@ -56,6 +57,7 @@ resource "aws_s3_bucket_policy" "static_site_policy" {
 }
 
 resource "aws_cloudfront_distribution" "static_site_cdn" {
+  count  = length(aws_s3_bucket.static_site) > 0 ? 1 : 0
   origin {
     domain_name = aws_s3_bucket.static_site[0].bucket_regional_domain_name
     origin_id   = "S3-static-site"
@@ -101,5 +103,5 @@ resource "aws_cloudfront_distribution" "static_site_cdn" {
 }
 
 output "cloudfront_domain_name" {
-  value = aws_cloudfront_distribution.static_site_cdn.domain_name
+  value = aws_cloudfront_distribution.static_site_cdn[0].domain_name
 }
