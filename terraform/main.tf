@@ -12,7 +12,14 @@ provider "aws" {
   region = var.region
 }
 
+
+data "aws_s3_bucket" "existing_bucket" {
+  bucket = var.bucket_name
+}
+
 resource "aws_s3_bucket" "static_site" {
+  count  = length(data.aws_s3_bucket.existing_bucket.id) == 0 ? 1 : 0
+
   bucket = var.bucket_name
   acl    = "private"
 
