@@ -39,12 +39,12 @@ jobs:
       # Terraform プランの作成
       - name: Terraform Plan
         working-directory: ./terraform
-        run: terraform plan -var="bucket_name=${{ secrets.S3_BUCKET_NAME }}"
+        run: terraform plan -var="bucket_name=${{ secrets.S3_BUCKET_NAME }}" -var="region=${{ secrets.AWS_REGION }}"
 
       # Terraform 適用
       - name: Terraform Apply
         working-directory: ./terraform
-        run: terraform apply -auto-approve -var="bucket_name=${{ secrets.S3_BUCKET_NAME }}" -var="region=${{ secrets.AWS_SECRET_ACCESS_KEY }}"
+        run: terraform apply -auto-approve -var="bucket_name=${{ secrets.S3_BUCKET_NAME }}" -var="region=${{ secrets.AWS_REGION }}"
 
       # S3 にファイルをアップロード
       - name: Upload Files to S3
