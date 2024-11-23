@@ -27,9 +27,9 @@ jobs:
       # Initialize Terraform
       - name: Terraform Init
         working-directory: ./terraform
-        run: terraform init
+        run: terraform init  -var="bucket_name=${{ secrets.S3_BUCKET_NAME }}" -var="region=${{ secrets.AWS_REGION }}"
 
       # Apply Terraform plan to destroy resources
       - name: Terraform Destroy
         working-directory: ./terraform
-        run: terraform destroy -auto-approve
+        run: terraform destroy -auto-approve -var="bucket_name=${{ secrets.S3_BUCKET_NAME }}" -var="region=${{ secrets.AWS_REGION }}"
