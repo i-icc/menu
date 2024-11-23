@@ -102,7 +102,10 @@ resource "aws_cloudfront_distribution" "static_site_cdn" {
   price_class = "PriceClass_100"
 }
 
-output "cloudfront_domain_name" {
+resource "null_resource" "cloudfront_check" {
   count = length(aws_cloudfront_distribution.static_site_cdn) > 0 ? 1 : 0
-  value = aws_cloudfront_distribution.static_site_cdn[0].domain_name
+}
+
+output "cloudfront_domain_name" {
+  value = length(aws_cloudfront_distribution.static_site_cdn) > 0 ? aws_cloudfront_distribution.static_site_cdn[0].domain_name : null
 }
