@@ -1,12 +1,48 @@
 name: Deploy
 
 on:
-  push:
-    branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
-        - name: tesst
-          run: echo 'test'
+      # チェックアウトリポジトリ
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Terraform セットアップ
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.5.0
+
+      # AWS 認証
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      # Terraform 初期化
+      - name: Terraform Init
+        run: terraform init
+
+      # Terraform 設定の検証
+      - name: Terraform Validate
+        run: terraform validate
+
+      # Terraform プランの作成
+      - name: Terraform Plan
+        run: terraform plan -var="bucket_name=${{ secrets.S3_BUCKET_NAME }}"
+
+      # Terraform 適用
+      - name: Terraform Apply
+        run: terraform apply -auto-approve -var="bucket_name=${{ secrets.S3_BUCKET_NAME }}" -var="region=${{ secrets.AWS_SECRET_ACCESS_KEY }}"
+
+      # S3 にファイルをアップロード
+      - name: Upload Files to S3
+        run: |
+          aws s3 sync ./src/menu-client/out s3://${{ secrets.S3_BUCKET_NAME }} --delete
