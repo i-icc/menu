@@ -28,18 +28,22 @@ jobs:
 
       # Terraform 初期化
       - name: Terraform Init
+        working-directory: ./terraform
         run: terraform init
 
       # Terraform 設定の検証
       - name: Terraform Validate
+        working-directory: ./terraform
         run: terraform validate
 
       # Terraform プランの作成
       - name: Terraform Plan
+        working-directory: ./terraform
         run: terraform plan -var="bucket_name=${{ secrets.S3_BUCKET_NAME }}"
 
       # Terraform 適用
       - name: Terraform Apply
+        working-directory: ./terraform
         run: terraform apply -auto-approve -var="bucket_name=${{ secrets.S3_BUCKET_NAME }}" -var="region=${{ secrets.AWS_SECRET_ACCESS_KEY }}"
 
       # S3 にファイルをアップロード
