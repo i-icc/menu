@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { MenuCard } from "./components/menu-card";
 import { TagTabs } from "./components/tag-tabs";
-import { menuItems, tags } from "./data/menu";
-import { Tag } from "./types/menu";
+import { menuItems, tags } from "../data/menu";
+import { Tag } from "../types/menu";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function Home() {

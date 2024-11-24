@@ -1,8 +1,8 @@
 "use client";
 
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { tags } from "../data/menu";
-import { Tag } from "../types/menu";
+import { tags } from "../../data/menu";
+import { Tag } from "../../types/menu";
 
 interface TagTabsProps {
   activeTag: Tag;
