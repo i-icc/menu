@@ -1,0 +1,32 @@
+{
+    "items": [
+        {
+            "id": "0CF9DA23-2A77-411B-A034-8F658BAA9781",
+            "name": "テスト 料理",
+            "description": "",
+            "image": "/images/4A29FF84.png",
+            "steps": []
+        },
+        {
+            "id": "C108F248-C729-4B1D-9A09-327FD114587A",
+            "name": "テスト 料理2",
+            "description": "",
+            "image": "/images/4A29FF84.png",
+            "steps": []
+        }
+    ],
+    "item_tag_relation": [
+        {
+            "item_id": "0CF9DA23-2A77-411B-A034-8F658BAA9781",
+            "tag_id": "4A29FF84"
+        },
+        {
+            "item_id": "C108F248-C729-4B1D-9A09-327FD114587A",
+            "tag_id": "4A29FF84"
+        },
+        {
+            "item_id": "C108F248-C729-4B1D-9A09-327FD114587A",
+            "tag_id": "DF667EF5"
+        }
+    ]
+}
