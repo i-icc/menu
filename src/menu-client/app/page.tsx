@@ -7,13 +7,10 @@ import { MenuItem, Tag } from "@/types/menu";
 import { motion, AnimatePresence } from "framer-motion";
 import { ItemRepositoryLocal } from "@/infrastructure/repository/item-repository-local";
 import { ItemRepository } from "@/types/repository";
+import { tags } from "@/data/menu";
 
 export default function Home() {
-  const [activeTag, setActiveTag] = useState<Tag>({
-    id: 'drinks',
-    title: 'Beverages',
-    description: 'Handcrafted drinks made with premium ingredients',
-  });
+  const [activeTag, setActiveTag] = useState<Tag>(tags['4A29FF84']);
   const [items, setItems] = useState<MenuItem[]>([]);
   const itemRepository: ItemRepository = new ItemRepositoryLocal();
 
