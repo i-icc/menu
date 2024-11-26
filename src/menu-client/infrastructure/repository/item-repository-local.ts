@@ -11,63 +11,58 @@ type itemDto = {
     steps: string[];
 };
 
-type tagRelationDto = {
-    item_id: string;
+type tagItemRelationDto = {
+    item_ids: string[];
     tag_id: string;
-}
+};
+
 // リポジトリインターフェース
 export class ItemRepositoryLocal implements ItemRepository {
-    private itemList: MenuItem[];
-    private tagItemMap;
+    private itemList: Record<string, MenuItem> = {};
+    private tagItemIdMap: Record<string, string[]> = {};
 
     constructor() {
         try {
-            const itemData: itemDto[] = menuJson["items"];
-            const item_tag_relations: tagRelationDto[] = menuJson["item_tag_relation"]
-            const itemTagMap = item_tag_relations.reduce((acc, relation) => {
-                if (!acc[relation.item_id]) {
-                    acc[relation.item_id] = [];
+            const itemData: Record<string, itemDto> = menuJson["items"];
+            const tagItemRelations: Record<string, tagItemRelationDto> = menuJson["tag_item_relation"];
+
+            for (const itemId in itemData) {
+                const { id, name, description, image, steps } = itemData[itemId];
+                this.itemList[id] = {
+                    id,
+                    name,
+                    description,
+                    image,
+                    steps,
+                    tags: [],
+                };
+            }
+
+            for (const tagId in tagItemRelations) {
+                const itemIds = tagItemRelations[tagId].item_ids;
+                this.tagItemIdMap[tagId] = itemIds;
+                for (const id of itemIds) {
+                    this.itemList[id].tags.push(tags[tagId]);
                 }
-                acc[relation.item_id].push(relation.tag_id);
-                return acc;
-            }, {} as Record<string, string[]>);
-            this.tagItemMap = item_tag_relations.reduce((acc, relation) => {
-                if (!acc[relation.tag_id]) {
-                    acc[relation.tag_id] = [];
-                }
-                acc[relation.tag_id].push(relation.item_id);
-                return acc;
-            }, {} as Record<string, string[]>);
-            this.itemList = itemData.map((item) => {
-                const tagList = itemTagMap[item.id].map((id) => tags[id])
-                return {
-                    id: item.id,
-                    name: item.name,
-                    description: item.description,
-                    image: item.image,
-                    steps: item.steps,
-                    tags: tagList
-                }
-            });
+            }
         } catch (error) {
-            throw `データが取得に失敗しました！${error}`
+            throw `データが取得できませんでした！${error}`;
         }
     }
 
-
     async getAllItems(): Promise<MenuItem[]> {
-        return this.itemList;
+        return Object.values(this.itemList);
     }
 
     async getItemById(id: string): Promise<MenuItem | null> {
-        const item = this.itemList.find((item) => item.id === id);
-        if (item === undefined) {
-            return null
-        }
-        return item
+        return this.itemList[id];
     }
 
     async getItemsByTag(tag: Tag): Promise<MenuItem[]> {
-        return this.itemList.filter((item) => item.tags.some((t) => t.id === tag.id));
+        const targetIds = this.tagItemIdMap[tag.id];
+        if (targetIds === undefined) {
+            return []
+        }
+        return targetIds.map((id) => this.itemList[id]) as MenuItem[];
     }
 }
