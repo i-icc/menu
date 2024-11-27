@@ -1,4 +1,4 @@
-import { tags } from '@/data/menu';
+import { tags } from '@/lib/menu';
 import { MenuItem, Tag } from '@/lib/types';
 import { ItemRepository } from '@/lib/repository';
 // 読み取り方法を変えて書き込みも担保する
