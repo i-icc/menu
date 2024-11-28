@@ -1,9 +1,9 @@
 import { exec } from 'child_process';
 import { NextResponse } from 'next/server';
 
-export async function GET(): Promise<Response> {
+export async function POST(): Promise<Response> {
     return new Promise((resolve) => {
-        exec('echo HelloWorld', (error, stdout, stderr) => {
+        exec('git add ../menu-client/public; git add ./public; git commit -m "#5 edit sorce";git push', (error, stdout, stderr) => {
             if (error) {
                 console.error(`Error: ${error.message}`);
                 resolve(NextResponse.json({ success: false, error: error.message }));
@@ -14,7 +14,7 @@ export async function GET(): Promise<Response> {
                 resolve(NextResponse.json({ success: false, stderr }));
                 return;
             }
-            resolve(NextResponse.json({ success: true, output: stdout }));
+            resolve(NextResponse.json({ success: true, stdout }));
         });
     });
 }
