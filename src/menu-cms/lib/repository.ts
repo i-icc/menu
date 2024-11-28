@@ -6,5 +6,5 @@ export interface ItemRepository {
     getItemsByTag(tag: Tag): Promise<MenuItem[]>;
     createItem(item: MenuItem): Promise<MenuItem>;
     updateItem(item: MenuItem): Promise<MenuItem>;
-    deleteItem(id: string): Promise<MenuItem>;
+    deleteItem(id: string): Promise<void>;
 }

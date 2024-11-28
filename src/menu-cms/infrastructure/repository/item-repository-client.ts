@@ -1,7 +1,9 @@
 import { tags } from '@/lib/menu';
 import { MenuItem, Tag } from '@/lib/types';
 import { ItemRepository } from '@/lib/repository';
-// 読み取り方法を変えて書き込みも担保する
+import path from 'path';
+// import fs from 'fs';
+import { v4 as uuidv4 } from 'uuid';
 import menuJson from '@/public/data/menu.json';
 
 type itemDto = {
@@ -21,8 +23,11 @@ type tagItemRelationDto = {
 export class ItemRepositoryLocal implements ItemRepository {
     private itemList: Record<string, MenuItem> = {};
     private tagItemIdMap: Record<string, string[]> = {};
+    private menuJsonPath: string;
 
     constructor() {
+        this.menuJsonPath = path.join(process.cwd(), 'public', 'data', 'menu.json');
+
         try {
             const itemData: Record<string, itemDto> = menuJson["items"];
             const tagItemRelations: Record<string, tagItemRelationDto> = menuJson["tag_item_relation"];
@@ -56,13 +61,13 @@ export class ItemRepositoryLocal implements ItemRepository {
     }
 
     async getItemById(id: string): Promise<MenuItem | null> {
-        return this.itemList[id];
+        return this.itemList[id] || null;
     }
 
     async getItemsByTag(tag: Tag): Promise<MenuItem[]> {
         const targetIds = this.tagItemIdMap[tag.id];
         if (targetIds === undefined) {
-            return []
+            return [];
         }
         return targetIds.map((id) => this.itemList[id]) as MenuItem[];
     }
@@ -75,7 +80,7 @@ export class ItemRepositoryLocal implements ItemRepository {
         throw new Error('Method not implemented.');
     }
 
-    async deleteItem(id: string): Promise<MenuItem> {
+    async deleteItem(id: string): Promise<void> {
         throw new Error('Method not implemented.');
     }
 }

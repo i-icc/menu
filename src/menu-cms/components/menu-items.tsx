@@ -25,8 +25,7 @@ export function MenuItems() {
     getAllItems().then((items) => {
       setMenuItems(items);
     }).catch((e) => {
-      console.log(e);
-      throw new Error("Error");
+      throw new Error(`Error: ${e}`);
     })
   }, [isDialogOpen, updateCount]);
 
