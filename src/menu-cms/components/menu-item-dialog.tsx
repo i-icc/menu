@@ -20,7 +20,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useStore } from "@/lib/store";
 import { MenuItem, MenuItemFormData } from "@/lib/types";
 import { useEffect } from "react";
 import { Checkbox } from "./ui/checkbox";
@@ -52,7 +51,6 @@ export function MenuItemDialog({
   item,
   onClose,
 }: MenuItemDialogProps) {
-  const { addMenuItem, updateMenuItem } = useStore();
   const form = useForm<MenuItemFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -125,9 +123,9 @@ export function MenuItemDialog({
     };
 
     if (item) {
-      updateMenuItem(item.id, menuItem);
+      // todo: updateMenuItem(item.id, menuItem);
     } else {
-      addMenuItem(menuItem);
+      // todo: addMenuItem(menuItem);
     }
     onClose();
   };

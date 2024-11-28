@@ -1,7 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import { useStore } from "@/lib/store";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -13,17 +12,31 @@ import {
 import { PlusCircle } from "lucide-react";
 import { MenuItemDialog } from "./menu-item-dialog";
 import { MenuItem } from "@/lib/types";
+import { getAllItems } from "@/lib/items";
 
 export function MenuItems() {
-  const { menuItems, deleteMenuItem } = useStore();
+  const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
   const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  // 初期値の取得
+  useEffect(() => {
+    getAllItems().then((items) => {
+      setMenuItems(items);
+    }).catch((e) => {
+      console.log(e);
+      throw new Error("Error");
+    })
+  }, [isDialogOpen]);
 
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold">Item</h2>
-        <Button onClick={() => setIsDialogOpen(true)}>
+        <Button onClick={() => {
+          setSelectedItem(null);
+          setIsDialogOpen(true);
+        }}>
           <PlusCircle className="mr-2 h-4 w-4" />
           料理を追加する
         </Button>
@@ -76,7 +89,7 @@ export function MenuItems() {
                   </Button>
                   <Button
                     variant="destructive"
-                    onClick={() => deleteMenuItem(item.id)}
+                    onClick={() => (item.id)}
                   >
                     削除
                   </Button>
