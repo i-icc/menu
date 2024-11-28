@@ -10,12 +10,12 @@ export function MenuDashboard() {
       <div className="space-y-2">
         <h1 className="text-3xl font-bold">Menu CMS</h1>
         <p className="text-muted-foreground">
-          Manage your menu items and tags here.
+          料理管理システム
         </p>
       </div>
       <Tabs defaultValue="menu-items">
         <TabsList>
-          <TabsTrigger value="menu-items">Menu Items</TabsTrigger>
+          <TabsTrigger value="menu-items">Items</TabsTrigger>
           <TabsTrigger value="tags">Tags</TabsTrigger>
         </TabsList>
         <TabsContent value="menu-items" className="space-y-4">

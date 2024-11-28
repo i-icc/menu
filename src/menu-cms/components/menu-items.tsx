@@ -22,10 +22,10 @@ export function MenuItems() {
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold">Menu Items</h2>
+        <h2 className="text-2xl font-bold">Item</h2>
         <Button onClick={() => setIsDialogOpen(true)}>
           <PlusCircle className="mr-2 h-4 w-4" />
-          Add Menu Item
+          料理を追加する
         </Button>
       </div>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -72,13 +72,13 @@ export function MenuItems() {
                       setIsDialogOpen(true);
                     }}
                   >
-                    Edit
+                    編集
                   </Button>
                   <Button
                     variant="destructive"
                     onClick={() => deleteMenuItem(item.id)}
                   >
-                    Delete
+                    削除
                   </Button>
                 </div>
               </div>

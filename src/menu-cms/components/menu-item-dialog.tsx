@@ -26,6 +26,7 @@ import { useEffect } from "react";
 import { Checkbox } from "./ui/checkbox";
 import { Plus, Trash2, Upload } from "lucide-react";
 import { useDropzone } from "react-dropzone";
+import { tags } from "@/lib/menu";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 
@@ -51,7 +52,7 @@ export function MenuItemDialog({
   item,
   onClose,
 }: MenuItemDialogProps) {
-  const { addMenuItem, updateMenuItem, tags } = useStore();
+  const { addMenuItem, updateMenuItem } = useStore();
   const form = useForm<MenuItemFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -62,6 +63,7 @@ export function MenuItemDialog({
       tags: [],
     },
   });
+  const tagList = Object.values(tags);
 
   const onDrop = (acceptedFiles: File[]) => {
     if (acceptedFiles.length > 0) {
@@ -114,7 +116,7 @@ export function MenuItemDialog({
   }, [item, form]);
 
   const onSubmit = (data: MenuItemFormData) => {
-    const selectedTags = tags.filter((tag) => data.tags.includes(tag.id));
+    const selectedTags = tagList.filter((tag) => data.tags.includes(tag.id));
     const menuItem: MenuItem = {
       id: item?.id || Math.random().toString(36).substr(2, 9),
       ...data,
@@ -132,9 +134,9 @@ export function MenuItemDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl">
+      <DialogContent className="max-w-2xl overflow-y-auto max-h-screen">
         <DialogHeader>
-          <DialogTitle>{item ? "Edit Menu Item" : "Add Menu Item"}</DialogTitle>
+          <DialogTitle>{item ? "料理を編集する" : "料理を追加する"}</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -143,7 +145,7 @@ export function MenuItemDialog({
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel>料理名</FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
@@ -156,7 +158,7 @@ export function MenuItemDialog({
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Description (Optional)</FormLabel>
+                  <FormLabel>説明 (オプション)</FormLabel>
                   <FormControl>
                     <Textarea {...field} />
                   </FormControl>
@@ -169,25 +171,24 @@ export function MenuItemDialog({
               name="image"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Image</FormLabel>
+                  <FormLabel>画像</FormLabel>
                   <FormControl>
                     <div
                       {...getRootProps()}
-                      className={`border-2 border-dashed rounded-lg p-4 text-center cursor-pointer transition-colors ${
-                        isDragActive
-                          ? "border-primary bg-primary/5"
-                          : "border-border hover:border-primary"
-                      }`}
+                      className={`border-2 border-dashed rounded-lg p-4 text-center cursor-pointer transition-colors ${isDragActive
+                        ? "border-primary bg-primary/5"
+                        : "border-border hover:border-primary"
+                        }`}
                     >
                       <input {...getInputProps()} />
                       <div className="space-y-2">
                         <Upload className="h-8 w-8 mx-auto text-muted-foreground" />
                         <div className="text-sm text-muted-foreground">
                           {isDragActive ? (
-                            <p>Drop the image here</p>
+                            <p>ここに画像をドラッグしてください</p>
                           ) : (
                             <p>
-                              Drag and drop an image here, or click to select one
+                              画像をドラッグ&ドロップ、もしくはクリックしてください
                             </p>
                           )}
                         </div>
@@ -208,7 +209,7 @@ export function MenuItemDialog({
               )}
             />
             <div className="space-y-4">
-              <FormLabel>Steps</FormLabel>
+              <FormLabel>作り方</FormLabel>
               {form.watch("steps").map((_, index) => (
                 <FormField
                   key={index}
@@ -250,7 +251,7 @@ export function MenuItemDialog({
                 }}
               >
                 <Plus className="mr-2 h-4 w-4" />
-                Add Step
+                作り方を追加する
               </Button>
             </div>
             <FormField
@@ -260,7 +261,7 @@ export function MenuItemDialog({
                 <FormItem>
                   <FormLabel>Tags</FormLabel>
                   <div className="grid grid-cols-2 gap-4">
-                    {tags.map((tag) => (
+                    {tagList.map((tag) => (
                       <FormField
                         key={tag.id}
                         control={form.control}
@@ -278,8 +279,8 @@ export function MenuItemDialog({
                                     const newValue = checked
                                       ? [...field.value, tag.id]
                                       : field.value?.filter(
-                                          (value) => value !== tag.id
-                                        );
+                                        (value) => value !== tag.id
+                                      );
                                     field.onChange(newValue);
                                   }}
                                 />
@@ -304,9 +305,9 @@ export function MenuItemDialog({
             />
             <div className="flex justify-end gap-2">
               <Button type="button" variant="outline" onClick={onClose}>
-                Cancel
+                取り消す
               </Button>
-              <Button type="submit">{item ? "Update" : "Create"}</Button>
+              <Button type="submit">{item ? "編集" : "作成"}</Button>
             </div>
           </form>
         </Form>
