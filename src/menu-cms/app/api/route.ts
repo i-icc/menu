@@ -1,7 +1,7 @@
 import { exec } from 'child_process';
 import { NextResponse } from 'next/server';
 
-export async function GET() {
+export async function GET(): Promise<Response> {
     return new Promise((resolve, reject) => {
         exec('pwd', (error, stdout, stderr) => {
             if (error) {
