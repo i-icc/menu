@@ -18,16 +18,19 @@ export function MenuItems() {
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
   const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [updateCount, setUpdateCount] = useState(0);
 
-  // 初期値の取得
-  useEffect(() => {
+  const resetItem = () => {
     getAllItems().then((items) => {
       setMenuItems(items);
     }).catch((e) => {
       throw new Error(`Error: ${e}`);
     })
-  }, [isDialogOpen, updateCount]);
+  }
+
+  // 初期値の取得
+  useEffect(() => {
+    resetItem();
+  }, [isDialogOpen]);
 
   return (
     <div className="space-y-4">
@@ -89,10 +92,7 @@ export function MenuItems() {
                   </Button>
                   <Button
                     variant="destructive"
-                    onClick={async () => {
-                      await deleteItem(item.id);
-                      setUpdateCount((prevCount) => prevCount + 1);
-                    }}
+                    onClick={() => { deleteItem(item.id).then(() => resetItem()) }}
                   >
                     削除
                   </Button>
@@ -111,6 +111,6 @@ export function MenuItems() {
           setIsDialogOpen(false);
         }}
       />
-    </div>
+    </div >
   );
 }
