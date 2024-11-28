@@ -41,10 +41,30 @@ export const tags: { [key: string]: Tag } = {
     title: '夕食',
     description: '夕食達',
   },
+  '9ECAB9E0': {
+    id: '9ECAB9E0',
+    title: '夏',
+    description: '夏野菜や冷たいものなど',
+  },
+  '993298C2': {
+    id: '993298C2',
+    title: '秋',
+    description: 'きのこや秋刀魚等',
+  },
+  '2DB9E4B5': {
+    id: '2DB9E4B5',
+    title: '冬',
+    description: '鍋とか色々',
+  },
   'C0CBEEC2': {
     id: 'C0CBEEC2',
     title: 'ソフトドリンク',
     description: '紅茶やコーヒー、アルコールの入っていない飲み物',
+  },
+  '902438E7': {
+    id: '902438E7',
+    title: 'スイーツ',
+    description: 'デザート含めいろいろ',
   },
   '1152FC07': {
     id: '1152FC07',
