@@ -12,12 +12,13 @@ import {
 import { PlusCircle } from "lucide-react";
 import { MenuItemDialog } from "./menu-item-dialog";
 import { MenuItem } from "@/lib/types";
-import { getAllItems } from "@/lib/items";
+import { deleteItem, getAllItems } from "@/lib/items";
 
 export function MenuItems() {
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
   const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [updateCount, setUpdateCount] = useState(0);
 
   // 初期値の取得
   useEffect(() => {
@@ -27,7 +28,7 @@ export function MenuItems() {
       console.log(e);
       throw new Error("Error");
     })
-  }, [isDialogOpen]);
+  }, [isDialogOpen, updateCount]);
 
   return (
     <div className="space-y-4">
@@ -89,7 +90,10 @@ export function MenuItems() {
                   </Button>
                   <Button
                     variant="destructive"
-                    onClick={() => (item.id)}
+                    onClick={async () => {
+                      await deleteItem(item.id);
+                      setUpdateCount((prevCount) => prevCount + 1);
+                    }}
                   >
                     削除
                   </Button>

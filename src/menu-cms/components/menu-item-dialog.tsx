@@ -26,6 +26,7 @@ import { Checkbox } from "./ui/checkbox";
 import { Plus, Trash2, Upload } from "lucide-react";
 import { useDropzone } from "react-dropzone";
 import { tags } from "@/lib/menu";
+import { createItem, updateItem } from "@/lib/items";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 
@@ -123,11 +124,20 @@ export function MenuItemDialog({
     };
 
     if (item) {
-      // todo: updateMenuItem(item.id, menuItem);
+      updateItem(menuItem).catch((e) => {
+        console.log(e);
+        throw new Error("Error");
+      }).finally(() => {
+        onClose();
+      })
     } else {
-      // todo: addMenuItem(menuItem);
+      createItem(menuItem).catch((e) => {
+        console.log(e);
+        throw new Error("Error");
+      }).finally(() => {
+        onClose();
+      })
     }
-    onClose();
   };
 
   return (
