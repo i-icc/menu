@@ -1,9 +1,6 @@
 import { tags } from '@/lib/menu';
 import { MenuItem, Tag } from '@/lib/types';
 import { ItemRepository } from '@/lib/repository';
-import path from 'path';
-// import fs from 'fs';
-import { v4 as uuidv4 } from 'uuid';
 import menuJson from '@/public/data/menu.json';
 
 type itemDto = {
@@ -23,11 +20,8 @@ type tagItemRelationDto = {
 export class ItemRepositoryLocal implements ItemRepository {
     private itemList: Record<string, MenuItem> = {};
     private tagItemIdMap: Record<string, string[]> = {};
-    private menuJsonPath: string;
 
     constructor() {
-        this.menuJsonPath = path.join(process.cwd(), 'public', 'data', 'menu.json');
-
         try {
             const itemData: Record<string, itemDto> = menuJson["items"];
             const tagItemRelations: Record<string, tagItemRelationDto> = menuJson["tag_item_relation"];
@@ -40,7 +34,7 @@ export class ItemRepositoryLocal implements ItemRepository {
                     description,
                     image,
                     steps,
-                    tags: [],
+                    tags: []
                 };
             }
 

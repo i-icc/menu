@@ -1,6 +1,7 @@
 import { tags } from '@/lib/menu';
 import { MenuItem, Tag } from '@/lib/types';
 import { ItemRepository } from '@/lib/repository';
+import sharp from 'sharp';
 import path from 'path';
 import fs from 'fs';
 import { v4 as uuidv4 } from 'uuid';
@@ -24,9 +25,11 @@ export class ItemRepositoryServer implements ItemRepository {
     private itemList: Record<string, MenuItem> = {};
     private tagItemIdMap: Record<string, string[]> = {};
     private menuJsonPath: string;
+    private publicPath: string;
 
     constructor() {
         this.menuJsonPath = path.join(process.cwd(), 'public', 'data', 'menu.json');
+        this.publicPath = path.join(process.cwd(), 'public');
 
         try {
             const itemData: Record<string, itemDto> = menuJson["items"];
@@ -40,7 +43,7 @@ export class ItemRepositoryServer implements ItemRepository {
                     description,
                     image,
                     steps,
-                    tags: [],
+                    tags: []
                 };
             }
 
@@ -78,7 +81,19 @@ export class ItemRepositoryServer implements ItemRepository {
         if (this.itemList[item.id]) {
             throw new Error('Item already exists');
         }
+        if (item.image.length > 100) {
+            item.image = await this.saveImage(item.id, item.image);
+        }
+
+
         this.itemList[item.id] = item;
+        item.tags.map((tag) => {
+            if (this.tagItemIdMap[tag.id]) {
+                this.tagItemIdMap[tag.id].push(item.id)
+            } else {
+                this.tagItemIdMap[tag.id] = [item.id]
+            }
+        })
         this.saveData();  // 新規アイテムを追加後にデータを保存
         return item;
     }
@@ -87,7 +102,25 @@ export class ItemRepositoryServer implements ItemRepository {
         if (!this.itemList[item.id]) {
             throw new Error('Item not found');
         }
+        if (item.image.length > 100) {
+            item.image = await this.saveImage(item.id, item.image);
+        }
         this.itemList[item.id] = item;
+        const itemTagIds = item.tags.values().map((tag) => tag.id)
+        for (const tagId in this.tagItemIdMap) {
+            const index = this.tagItemIdMap[tagId].indexOf(item.id);
+            if (tagId in itemTagIds) {
+                // なければ追加
+                if (index === -1) {
+                    this.tagItemIdMap[tagId].push(item.id)
+                }
+            } else {
+                // あれば削除
+                if (index !== -1) {
+                    this.tagItemIdMap[tagId].splice(index, 1);
+                }
+            }
+        }
         this.saveData();  // アイテムを更新後にデータを保存
         return item;
     }
@@ -140,6 +173,43 @@ export class ItemRepositoryServer implements ItemRepository {
             fs.writeFileSync(this.menuJsonPath, JSON.stringify(menuData, null, 2)); // JSONファイルに保存
         } catch (error) {
             throw `データの保存に失敗しました！${error}`;
+        }
+    }
+
+    private async saveImage(id: string, base64String: string): Promise<string> {
+        // Base64部分を抽出
+        const base64Data = base64String.split(',')[1];
+
+        // MIMEタイプから画像形式を推測
+        const mimeType = base64String.split(';')[0].split(':')[1];
+        const format = mimeType.replace('image/', '');
+        if (!mimeType.startsWith('image/')) {
+            throw new Error('Invalid image format');
+        }
+        // 画像形式がサポートされていない場合はエラー
+        const supportedFormats = ['jpeg', 'png', 'webp'];
+        if (!supportedFormats.includes(format)) {
+            throw new Error('Unsupported image format');
+        }
+
+        try {
+            // Base64デコードと画像処理
+            const image = sharp(Buffer.from(base64Data, 'base64'));
+            const { width } = await image.metadata();
+
+            // 横幅が1080pxを超える場合、リサイズ
+            if (!width || width > 1080) {
+                image.resize(1080);
+            }
+
+            const imagePaht = `images/${id}.${format}`
+            const outputPath = path.join(this.publicPath, `images/${id}.${format}`);
+            await image.toFile(outputPath);
+
+            return `/${imagePaht}`;
+        } catch (error) {
+            console.error('Error saving image:', error);
+            throw new Error('Failed to save image');
         }
     }
 }
