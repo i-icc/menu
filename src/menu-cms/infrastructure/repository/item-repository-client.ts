@@ -1,6 +1,6 @@
-import { tags } from '@/data/menu';
-import { MenuItem, Tag } from '@/types/menu';
-import { ItemRepository } from '@/types/repository';
+import { tags } from '@/lib/menu';
+import { MenuItem, Tag } from '@/lib/types';
+import { ItemRepository } from '@/lib/repository';
 import menuJson from '@/public/data/menu.json';
 
 type itemDto = {
@@ -34,7 +34,7 @@ export class ItemRepositoryLocal implements ItemRepository {
                     description,
                     image,
                     steps,
-                    tags: [],
+                    tags: []
                 };
             }
 
@@ -55,14 +55,26 @@ export class ItemRepositoryLocal implements ItemRepository {
     }
 
     async getItemById(id: string): Promise<MenuItem | null> {
-        return this.itemList[id];
+        return this.itemList[id] || null;
     }
 
     async getItemsByTag(tag: Tag): Promise<MenuItem[]> {
         const targetIds = this.tagItemIdMap[tag.id];
         if (targetIds === undefined) {
-            return []
+            return [];
         }
         return targetIds.map((id) => this.itemList[id]) as MenuItem[];
+    }
+
+    async createItem(item: MenuItem): Promise<MenuItem> {
+        throw new Error('Method not implemented.');
+    }
+
+    async updateItem(item: MenuItem): Promise<MenuItem> {
+        throw new Error('Method not implemented.');
+    }
+
+    async deleteItem(id: string): Promise<void> {
+        throw new Error('Method not implemented.');
     }
 }

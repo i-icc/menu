@@ -1,4 +1,4 @@
-import { Tag } from '../types/menu';
+import { Tag } from '@/lib/types';
 
 export const tags: { [key: string]: Tag } = {
   '4A29FF84': {

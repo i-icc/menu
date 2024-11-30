@@ -29,6 +29,7 @@ export default function Home() {
     return () => {
       isMounted = false;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTag]);
 
   return (
