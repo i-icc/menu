@@ -8,9 +8,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ItemRepositoryLocal } from "@/infrastructure/repository/item-repository-local";
 import { ItemRepository } from "@/types/repository";
 import { tags } from "@/data/menu";
+import { useSearchParams } from "next/navigation";
 
 export default function Home() {
-  const [activeTag, setActiveTag] = useState<Tag>(tags['4A29FF84']);
+  const searchParams = useSearchParams();
+  const tagId = searchParams.get('tag_id');
+  const [activeTag, setActiveTag] = useState<Tag>(tags[tagId ?? '4A29FF84']);
   const [items, setItems] = useState<MenuItem[]>([]);
   const itemRepository: ItemRepository = new ItemRepositoryLocal();
 
@@ -43,7 +46,9 @@ export default function Home() {
           </p>
         </div>
 
-        <TagTabs activeTag={activeTag} onTagChange={setActiveTag} />
+        <div className="w-full overflow-x-auto">
+          <TagTabs activeTag={activeTag} onTagChange={setActiveTag} />
+        </div>
 
         <div className="mt-8">
           <div className="text-center mb-8">
