@@ -1,33 +1,90 @@
 {
-    "items": {
-        "0CF9DA23-2A77-411B-A034-8F658BAA9781": {
-            "id": "0CF9DA23-2A77-411B-A034-8F658BAA9781",
-            "name": "テスト 料理",
-            "description": "",
-            "image": "/images/4A29FF84.png",
-            "steps": []
-        },
-        "C108F248-C729-4B1D-9A09-327FD114587A": {
-            "id": "C108F248-C729-4B1D-9A09-327FD114587A",
-            "name": "トースト(ハーフ&ハーフ)",
-            "description": "",
-            "image": "/images/C108F248-C729-4B1D-9A09-327FD114587A.png",
-            "steps": []
-        }
+  "items": {
+    "0CF9DA23-2A77-411B-A034-8F658BAA9781": {
+      "id": "0CF9DA23-2A77-411B-A034-8F658BAA9781",
+      "name": "テスト 料理",
+      "description": "",
+      "image": "/images/0CF9DA23-2A77-411B-A034-8F658BAA9781.jpeg",
+      "steps": [
+        "test"
+      ]
     },
-    "tag_item_relation": {
-        "4A29FF84": {
-            "item_ids": [
-                "0CF9DA23-2A77-411B-A034-8F658BAA9781",
-                "C108F248-C729-4B1D-9A09-327FD114587A"
-            ],
-            "tag_id": "4A29FF84"
-        },
-        "DF667EF5": {
-            "item_ids": [
-                "C108F248-C729-4B1D-9A09-327FD114587A"
-            ],
-            "tag_id": "DF667EF5"
-        }
+    "C108F248-C729-4B1D-9A09-327FD114587A": {
+      "id": "C108F248-C729-4B1D-9A09-327FD114587A",
+      "name": "トースト(ハーフ&ハーフ)",
+      "description": "ピザトーストと卵トーストのハーフ&ハーフ",
+      "image": "/images/C108F248-C729-4B1D-9A09-327FD114587A.png",
+      "steps": [
+        "【ピザトースト】ケチャップ、チーズ、ピーマン、ソーセージを乗せトースターで焼く",
+        "【卵トースト】食パンにハムを乗せ、その上に卵を落とす",
+        "【卵トースト】周辺をマヨで囲み卵が落ちないようにしながらトースターで焼く",
+        "焼けたらそれぞれをいい感じに切って完成"
+      ]
     }
+  },
+  "tag_item_relation": {
+    "4A29FF84": {
+      "tag_id": "4A29FF84",
+      "item_ids": [
+        "0CF9DA23-2A77-411B-A034-8F658BAA9781",
+        "C108F248-C729-4B1D-9A09-327FD114587A"
+      ]
+    },
+    "DF667EF5": {
+      "tag_id": "DF667EF5",
+      "item_ids": []
+    },
+    "C6A1F9C4": {
+      "tag_id": "C6A1F9C4",
+      "item_ids": [
+        "0CF9DA23-2A77-411B-A034-8F658BAA9781"
+      ]
+    },
+    "357FC66D": {
+      "tag_id": "357FC66D",
+      "item_ids": []
+    },
+    "3E636EDA": {
+      "tag_id": "3E636EDA",
+      "item_ids": []
+    },
+    "54A0A841": {
+      "tag_id": "54A0A841",
+      "item_ids": []
+    },
+    "3A7D2B4F": {
+      "tag_id": "3A7D2B4F",
+      "item_ids": [
+        "C108F248-C729-4B1D-9A09-327FD114587A"
+      ]
+    },
+    "A9F0F77C": {
+      "tag_id": "A9F0F77C",
+      "item_ids": []
+    },
+    "9ECAB9E0": {
+      "tag_id": "9ECAB9E0",
+      "item_ids": []
+    },
+    "993298C2": {
+      "tag_id": "993298C2",
+      "item_ids": []
+    },
+    "2DB9E4B5": {
+      "tag_id": "2DB9E4B5",
+      "item_ids": []
+    },
+    "C0CBEEC2": {
+      "tag_id": "C0CBEEC2",
+      "item_ids": []
+    },
+    "902438E7": {
+      "tag_id": "902438E7",
+      "item_ids": []
+    },
+    "1152FC07": {
+      "tag_id": "1152FC07",
+      "item_ids": []
+    }
+  }
 }
