@@ -10,6 +10,7 @@ export async function POST(request: Request): Promise<Response> {
         await itemRepository.createItem(item);
         return NextResponse.json({ success: true });
     } catch (error) {
+        console.log(error)
         return NextResponse.json({ success: false, message: error });
     }
 }
@@ -21,6 +22,7 @@ export async function PUT(request: Request): Promise<Response> {
         await itemRepository.updateItem(item);
         return NextResponse.json({ success: true });
     } catch (error) {
+        console.log(error)
         return NextResponse.json({ success: false });
     }
 }
@@ -32,6 +34,7 @@ export async function DELETE(request: Request): Promise<Response> {
         await itemRepository.deleteItem(id);
         return NextResponse.json({ success: true });
     } catch (error) {
+        console.log(error)
         return NextResponse.json({ success: false });
     }
 }

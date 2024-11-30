@@ -106,16 +106,19 @@ export class ItemRepositoryServer implements ItemRepository {
             item.image = await this.saveImage(item.id, item.image);
         }
         this.itemList[item.id] = item;
-        const itemTagIds = item.tags.values().map((tag) => tag.id)
+        const itemTagIds = item.tags.map((tag) => tag.id)
         for (const tagId in this.tagItemIdMap) {
             const index = this.tagItemIdMap[tagId].indexOf(item.id);
-            if (tagId in itemTagIds) {
+            const isAdd = itemTagIds.indexOf(tagId) !== -1;
+            if (isAdd) {
+                console.log("add", index, tags[tagId].title, tagId, itemTagIds)
                 // なければ追加
                 if (index === -1) {
                     this.tagItemIdMap[tagId].push(item.id)
                 }
             } else {
                 // あれば削除
+                console.log("delete", index, tags[tagId].title, tagId, itemTagIds)
                 if (index !== -1) {
                     this.tagItemIdMap[tagId].splice(index, 1);
                 }
