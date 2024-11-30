@@ -2,7 +2,7 @@
   "items": {
     "0CF9DA23-2A77-411B-A034-8F658BAA9781": {
       "id": "0CF9DA23-2A77-411B-A034-8F658BAA9781",
-      "name": "テスト 料理",
+      "name": "テスト 料理1230",
       "description": "",
       "image": "/images/0CF9DA23-2A77-411B-A034-8F658BAA9781.jpeg",
       "steps": [
@@ -46,7 +46,9 @@
     },
     "3E636EDA": {
       "tag_id": "3E636EDA",
-      "item_ids": []
+      "item_ids": [
+        "0CF9DA23-2A77-411B-A034-8F658BAA9781"
+      ]
     },
     "54A0A841": {
       "tag_id": "54A0A841",
@@ -55,7 +57,8 @@
     "3A7D2B4F": {
       "tag_id": "3A7D2B4F",
       "item_ids": [
-        "C108F248-C729-4B1D-9A09-327FD114587A"
+        "C108F248-C729-4B1D-9A09-327FD114587A",
+        "0CF9DA23-2A77-411B-A034-8F658BAA9781"
       ]
     },
     "A9F0F77C": {
