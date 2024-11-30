@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { MenuCard } from "./components/menu-card";
 import { TagTabs } from "./components/tag-tabs";
 import { MenuItem, Tag } from "@/types/menu";
@@ -11,6 +11,14 @@ import { tags } from "@/data/menu";
 import { useSearchParams } from "next/navigation";
 
 export default function Home() {
+  return (
+    <Suspense fallback={<div>読み込み中...</div>}>
+      <Main />
+    </Suspense>
+  )
+}
+
+function Main() {
   const searchParams = useSearchParams();
   const tagId = searchParams.get('tag_id');
   const [activeTag, setActiveTag] = useState<Tag>(tags[tagId ?? '4A29FF84']);
@@ -66,9 +74,7 @@ export default function Home() {
               exit={{ opacity: 0 }}
               className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
             >
-              {items.map((item) => (
-                <MenuCard key={item.id} item={item} />
-              ))}
+              {items.map((item) => (<MenuCard key={item.id} item={item} />))}
             </motion.div>
           </AnimatePresence>
         </div>
